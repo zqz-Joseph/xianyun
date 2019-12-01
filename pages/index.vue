@@ -17,7 +17,7 @@
       <div class="search-bar">
         <!-- tab栏 -->
         <el-row type="flex" class="search-tab">
-          <span v-for="(item,index) in options" :key="index" @click="currentOption=index,isGaoliang=index" :class="{'nuxt-link-exact-active':isGaoliang===index}">
+          <span v-for="(item,index) in options" :key="index" @click="handleChangeTab(index)" :class="{'nuxt-link-exact-active':isGaoliang===index}">
             <i>{{ item.name }}</i>
             <div />
           </span>
@@ -25,8 +25,8 @@
 
         <!-- 输入框 -->
         <el-row type="flex" align="middle" class="search-input">
-          <input :placeholder="options[currentOption].placeholder">
-          <i class="el-icon-search" />
+          <input :placeholder="options[currentOption].placeholder" @keyup.enter="handleSearch">
+          <i @click="handleSearch" class="el-icon-search" />
         </el-row>
       </div>
     </div>
@@ -68,6 +68,23 @@ export default {
       const { data } = res.data
       this.banners = data
     })
+  },
+  methods: {
+    handleChangeTab (index) {
+      if (index === 2) {
+        this.$router.push('/air')
+      } else {
+        this.currentOption = index
+        this.isGaoliang = index
+      }
+    },
+    handleSearch () {
+      if (this.currentOption === 0) {
+        this.$router.push('/post')
+      } else if (this.currentOption === 1) {
+        this.$router.push('hotel')
+      }
+    }
   }
 }
 </script>

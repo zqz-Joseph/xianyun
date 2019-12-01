@@ -15,6 +15,7 @@
     <el-form-item class="form-item" prop="password">
       <el-input
         v-model="form.password"
+        @keydown.enter.native="handleLoginSubmit"
         placeholder="密码"
         type="password"
       />
@@ -27,6 +28,7 @@
     </p>
 
     <el-button
+      @click="handleLoginSubmit"
       class="submit"
       type="primary"
     >
@@ -59,6 +61,25 @@ export default {
           }
         ]
       }
+    }
+  },
+  methods: {
+    handleLoginSubmit () {
+      this.$refs.form.validate((valid) => {
+        if (valid) {
+          // 使用vuex发送请求
+          this.$store.dispatch('user/login', this.form).then((res) => {
+            this.$message({
+              message: '登录成功,正在跳转',
+              type: 'success'
+            })
+            setTimeout(() => {
+              this.$router.replace('/')
+              // console.log(res)
+            }, 1000)
+          })
+        }
+      })
     }
   }
 }
