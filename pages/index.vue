@@ -37,7 +37,7 @@
 export default {
   data () {
     return {
-      // 轮播图数据
+      // 轮播图数据11
       banners: [],
       // tab 选项
       options: [
